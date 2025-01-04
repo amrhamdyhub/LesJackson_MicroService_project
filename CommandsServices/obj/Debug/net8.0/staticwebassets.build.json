@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "z3R3uhTHQSnayZSwqxffGMf6CGI2c8P5vboMYJNEu1g=",
+  "Source": "CommandsServices",
+  "BasePath": "_content/CommandsServices",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

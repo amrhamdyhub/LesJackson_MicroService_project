@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|e:\\work\\projects\\microservices\\lesjackson_microservices\\platformservice\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|e:\\work\\projects\\microservices\\lesjackson_microservices\\platformservice\\controllers\\platformscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|solutionrelative:controllers\\platformscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|e:\\work\\projects\\microservices\\lesjackson_microservices\\platformservice\\syncdataservcies\\http\\icommanddataclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|solutionrelative:syncdataservcies\\http\\icommanddataclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|e:\\work\\projects\\microservices\\lesjackson_microservices\\platformservice\\syncdataservcies\\http\\commanddataclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|solutionrelative:syncdataservcies\\http\\commanddataclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|e:\\work\\projects\\microservices\\lesjackson_microservices\\platformservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F8BE2DB-328B-4603-9021-A5E81181847B}|PlatformService.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-28T21:49:05.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlatformsController.cs",
+              "DocumentMoniker": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\Controllers\\PlatformsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PlatformsController.cs",
+              "ToolTip": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\Controllers\\PlatformsController.cs",
+              "RelativeToolTip": "Controllers\\PlatformsController.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T20:38:45.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACMAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T20:24:36.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CommandDataClient.cs",
+              "DocumentMoniker": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\SyncDataServcies\\Http\\CommandDataClient.cs",
+              "RelativeDocumentMoniker": "SyncDataServcies\\Http\\CommandDataClient.cs",
+              "ToolTip": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\SyncDataServcies\\Http\\CommandDataClient.cs",
+              "RelativeToolTip": "SyncDataServcies\\Http\\CommandDataClient.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T20:13:02.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ICommandDataClient.cs",
+              "DocumentMoniker": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\SyncDataServcies\\Http\\ICommandDataClient.cs",
+              "RelativeDocumentMoniker": "SyncDataServcies\\Http\\ICommandDataClient.cs",
+              "ToolTip": "E:\\Work\\projects\\Microservices\\LesJackson_Microservices\\PlatformService\\SyncDataServcies\\Http\\ICommandDataClient.cs",
+              "RelativeToolTip": "SyncDataServcies\\Http\\ICommandDataClient.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T20:11:16.882Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
