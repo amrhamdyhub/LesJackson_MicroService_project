@@ -7,7 +7,7 @@ using PlatformService.SyncDataServcies.Http;
 
 namespace PlatformService.Controllers
 {
-    [Route("/api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PlatformsController : Controller
     {
