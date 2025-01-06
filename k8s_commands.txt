@@ -1,0 +1,186 @@
+
+ mssql secret: SA_PASSWORD= "pa55w0rd!"
+
+
+ Nginx:
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/cloud/deploy.yaml
+ kubectl delete deployment ingress-nginx-controller --namespace=ingress-nginx
+ 
+ ####Ingress Rules: Ensure that the Ingress rules are correctly applied. You can describe the Ingress resource to see if the rules are correctly configured:
+ kubectl describe ingress ingress-srv
+ 
+ #####Check Ingress Controller Logs: Look for any errors or warnings in the Ingress controller logs.
+ kubectl logs <ingress-controller-pod-name> -n <ingress-controller-namespace>
+ kubectl logs ingress-nginx-controller-cbb88bdbc-wwsn6 -n ingress-nginx 
+ 
+ 
+ Service Availability: Ensure that the services platforms-clusterip-srv and commands-clusterip-srv are running and accessible within the cluster.
+ You can check the status of the services using:
+
+amrhamdyhub: after deploying the INgress servcie into kubernetes, and trying to access the services using http://acme.com/api/platforms/, I'm getting 404 Not found, what could be the problem
+
+GitHub Copilot: There are several potential reasons why you might be getting a 404 Not Found error when trying to access the services. Here are some steps to troubleshoot the issue:
+
+1. **Check DNS Resolution**: Ensure that `acme.com` resolves to the correct IP address of your Ingress controller.
+
+2. **Ingress Controller**: Verify that the Ingress controller is running and properly configured. You can check the logs of the Ingress controller for any errors.
+
+3. **Service Availability**: Ensure that the services `platforms-clusterip-srv` and `commands-clusterip-srv` are running and accessible within the cluster. You can check the status of the services using:
+   ```sh
+   kubectl get svc
+   ```
+
+4. **Ingress Rules**: Ensure that the Ingress rules are correctly applied. You can describe the Ingress resource to see if the rules are correctly configured:
+   ```sh
+   kubectl describe ingress ingress-srv
+   ```
+
+5. **Namespace**: Ensure that the Ingress resource and the services are in the same namespace. If they are in different namespaces, you need to specify the namespace in the Ingress resource.
+
+6. **Annotations**: Ensure that the annotations are correctly set. The `spec.ingressClassName` should be outside the `annotations` block. Here is the corrected YAML:
+   ```yaml
+   # filepath: /d:/projects/LesJackson_MicroService_project/K8s/ingress-srv.yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: ingress-srv
+     annotations:
+       nginx.ingress.kubernetes.io/use-regex: 'true'
+   spec:
+     ingressClassName: nginx
+     rules:
+       - host: acme.com
+         http:
+           paths:
+             - path: /api/platforms/
+               pathType: Prefix
+               backend:
+                 service:
+                   name: platforms-clusterip-srv
+                   port:
+                     number: 80
+             - path: /api/commands/
+               pathType: Prefix
+               backend:
+                 service:
+                   name: commands-clusterip-srv
+                   port:
+                     number: 80
+   ```
+
+7. **Logs**: Check the logs of the services to see if they are receiving the requests and if there are any errors.
+
+By following these steps, you should be able to identify and resolve the issue causing the 404 Not Found error.
+
+Similar code found with 1 license type
+
+amrhamdyhub: Did all what you mentioned and all looks good, yet still getting same issue 404
+
+GitHub Copilot: Let's try a few more steps to diagnose the issue:
+
+1. **Check Service Endpoints**: Verify that the services have endpoints and are correctly routing traffic to the pods. You can check this using:
+   ```sh
+   kubectl get endpoints platforms-clusterip-srv
+   kubectl get endpoints commands-clusterip-srv
+   ```
+
+2. **Ingress Controller Logs**: Check the logs of the Ingress controller for any errors or warnings that might indicate why the requests are not being routed correctly:
+   ```sh
+   kubectl logs <ingress-controller-pod-name> -n <ingress-controller-namespace>
+   ```
+
+3. **Ingress Resource Status**: Describe the Ingress resource to see if there are any events or status messages that might indicate an issue:
+   ```sh
+   kubectl describe ingress ingress-srv
+   ```
+
+4. **Path Trailing Slash**: Ensure that the paths in the Ingress resource match exactly with the paths expected by the services. Sometimes a trailing slash can make a difference. Try adding a trailing slash to the paths:
+   ```yaml
+   # filepath: /d:/projects/LesJackson_MicroService_project/K8s/ingress-srv.yaml
+   kind: Ingress
+   metadata:
+     name: ingress-srv
+     annotations:
+       nginx.ingress.kubernetes.io/use-regex: 'true'
+   spec:
+     ingressClassName: nginx
+     rules:
+       - host: acme.com
+         http:
+           paths:
+             - path: /api/platforms/
+               pathType: Prefix
+               backend:
+                 service:
+                   name: platforms-clusterip-srv
+                   port:
+                     number: 80
+             - path: /api/commands/
+               pathType: Prefix
+               backend:
+                 service:
+                   name: commands-clusterip-srv
+                   port:
+                     number: 80
+   ```
+
+5. **Curl from within the Cluster**: Use a pod within the cluster to curl the services directly to ensure they are responding as expected:
+   ```sh
+   kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+   # Inside the pod
+   wget -qO- http://platforms-clusterip-srv/api/platforms
+   wget -qO- http://commands-clusterip-srv/api/commands
+   ```
+
+6. **Ingress Controller Configuration**: Ensure that the Ingress controller is correctly configured to handle the Ingress resources. Check the configuration of the Ingress controller to ensure it is set up to handle the `nginx` ingress class.
+
+By following these additional steps, you should be able to further diagnose and resolve the issue causing the 404 Not Found error.
+
+Similar code found with 1 license type
+
+amrhamdyhub: kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+how to inspect again inside the cluster if the debug container already running 
+
+GitHub Copilot: If the debug container is already running, you can use the following command to get a shell into the running container:
+
+```sh
+kubectl exec -it <debug-pod-name> -- sh
+```
+
+To find the name of the running debug pod, you can list all pods and look for the debug pod:
+
+```sh
+kubectl get pods
+```
+
+Once you have the pod name, you can use the `kubectl exec` command to get a shell into the container. For example:
+
+```sh
+kubectl exec -it debug -- sh
+```
+
+Inside the container, you can use `wget` or `curl` to test the services:
+
+```sh
+wget -qO- http://platforms-clusterip-srv/api/platforms
+wget -qO- http://commands-clusterip-srv/api/commands
+```
+
+If `wget` or `curl` is not available in the busybox image, you can use `nc` (netcat) to test the connection:
+
+```sh
+nc -zv platforms-clusterip-srv 80
+nc -zv commands-clusterip-srv 80
+```
+
+This will help you verify if the services are reachable from within the cluster.
+
+amrhamdyhub: how to exit the session 
+
+GitHub Copilot: To exit the session inside the container, you can simply type `exit` and press Enter:
+
+```sh
+exit
+```
+
+This will terminate the shell session and return you to your local terminal.
