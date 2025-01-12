@@ -4,7 +4,10 @@ using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.DTOs;
 using PlatformService.Models;
+using PlatformService.Services;
+using PlatformService.CustomeResponse;
 using PlatformService.SyncDataServcies.Http;
+using FluentResults;
 
 namespace PlatformService.Controllers
 {
@@ -12,54 +15,64 @@ namespace PlatformService.Controllers
     [ApiController]
     public class PlatformsController : Controller
     {
-        private readonly IPlatformRepository _repository;
+        private readonly IplatformServices _platformService;
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
         private readonly IMessageBusClient _messageBusClient;
 
-        public PlatformsController(IPlatformRepository platformRepository, IMapper mapper, ICommandDataClient commandDataClient
+        public PlatformsController(IplatformServices platformRepository, IMapper mapper, ICommandDataClient commandDataClient
             , IMessageBusClient messageBusClient)
         {
-            _repository = platformRepository;
+            _platformService = platformRepository;
             _mapper = mapper;
             _commandDataClient = commandDataClient;
             _messageBusClient = messageBusClient;
         }
 
+        //[HttpGet()]
+        //// GET /api/platforms
+        //public IActionResult GetAllPlatforms()
+        //{
+        //    var platforms = _repository.GetAllPlatforms();
+        //    var platformReadDtos = _mapper.Map<IEnumerable<PlatformReadDto>>(platforms);
+        //    return Success(platformReadDtos);
+        //    //return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platforms));
+        //}
+
+
         [HttpGet()]
         // GET /api/platforms
-        public ActionResult<IEnumerable<PlatformReadDto>> GetAllPlatforms()
+        public ActionResult<List<PlatformReadDto>> GetAllPlatforms()
         {
-            var platforms = _repository.GetAllPlatforms();
-            return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platforms));
+            var result = _platformService.GetAllPlatforms();
+            //return result.IsSuccess ? Ok(result) : NotFound(result.Error);
+            return result.IsSuccess ? Ok(result.ToApiResponse()) : NotFound(result.ToApiResponse());
         }
 
         [HttpGet("{id}", Name = "GetPlatformById")]
-        public ActionResult<PlatformReadDto> GetPlatformById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type =typeof(Result<PlatformReadDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetPlatformById(int id)
         {
+            var result = _platformService.GetPlatformById(id);
+            return result.IsSuccess ? Ok(result.ToApiResponse()) : NotFound(result.ToApiResponse());
 
-            var platform = _repository.GetPlatformById(id);
-            if (platform != null)
-            {
-
-                return Ok(_mapper.Map<PlatformReadDto>(platform));
-            }
-            return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult<PlatformReadDto>> CreatePlatform(PlatformCreateDto platformCreateDto)
+        public async Task<ActionResult<ApiResponse<PlatformReadDto>>> CreatePlatform(PlatformCreateDto platformCreateDto)
         {
-            var platformModel = _mapper.Map<Platform>(platformCreateDto);
-            _repository.CreatePlatform(platformModel);
-            _repository.SaveChanges();
+            var result = _platformService.CreatePlatform(platformCreateDto);
 
-            var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
-
+            //if (!result.IsSuccess || result.Data == null)
+            if (!result.IsSuccess || result.Value == null)
+            {
+                return BadRequest(result.Errors);
+            }
             // send sync message
             try
             {
-                var response = await _commandDataClient.SendPlatformToCommand(platformReadDto);
+                var response = await _commandDataClient.SendPlatformToCommand(result.Value);
                 var responseMessage = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"--> Command Service Response: {responseMessage}");
             }
@@ -68,11 +81,10 @@ namespace PlatformService.Controllers
                 Console.WriteLine($"Failed to send platform to Command service: {ex.Message}");
             }
 
-
             //Send Async Message
             try
             {
-                var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platformReadDto);
+                var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(result.Value);
                 platformPublishedDto.Event = "Platform_Published";
                 await _messageBusClient.PublishNewPlatformAsync(platformPublishedDto);
             }
@@ -80,7 +92,7 @@ namespace PlatformService.Controllers
             {
                 Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
             }
-            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);
+            return CreatedAtRoute(nameof(GetPlatformById), new { Id = result.Value.Id }, result.ToApiResponse());
         }
 
     }

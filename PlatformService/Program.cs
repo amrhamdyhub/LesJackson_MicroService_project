@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.AsyncDataServices;
 using PlatformService.Data;
+using PlatformService.Services;
 using PlatformService.SyncDataServcies.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IPlatformRepository, PlatformRepository>(provider =>
     var dbContext = provider.GetRequiredService<AppDbContext>();
     return new PlatformRepository(dbContext);
 });
+builder.Services.AddScoped<IplatformServices, PlatformServices>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<ICommandDataClient, CommandDataClient>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
